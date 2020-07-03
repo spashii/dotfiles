@@ -9,15 +9,24 @@ mkdir -p ~/.config
 mkdir -p ~/.config/nvim
 mkdir -p ~/.tmux
 
-# git  
+# curl
+echo "(setup) checking for curl"
+if ! command -v curl &> /dev/null
+then
+    echo "(setup) installing curl"
+    sudo apt install curl
+else
+    echo "(setup) curl found"
+fi
+
+# git
 echo "(setup) checking for git"
 if ! command -v git &> /dev/null
 then
     echo "(setup) installing git"
-	sudo apt install git
+    sudo apt install git
 else
 	echo "(setup) git found"
-	exit
 fi
 
 # zsh 
@@ -83,7 +92,7 @@ sudo apt-get install clangd-9
 sudo update-alternatives --install /usr/bin/clangd clangd /usr/bin/clangd-9 100
 # nvim-plugs
 echo "(setup) installing neovim plugins"
-nvim -c 'PlugInstall|q'
+nvim -c 'PlugInstall' -c 'qa!'
 echo "(setup) configuring coc-nvim"
 nvim -c 'CocInstall -sync coc-clangd coc-css coc-html coc-json coc-python coc-sh coc-tsserver|q'
 echo "(setup) configured neovim"
