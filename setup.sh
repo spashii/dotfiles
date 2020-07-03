@@ -81,7 +81,7 @@ then
 fi
 ln -svf "$(pwd)/init.vim" ~/.config/nvim/
 echo "(setup) installing vim-plug"
-curl -fLo ~/.var/app/io.neovim.nvim/data/nvim/site/autoload/plug.vim https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 # node
 echo "(setup) installing n"
 curl -L https://raw.githubusercontent.com/tj/n/master/bin/n -o ~/n
@@ -92,7 +92,7 @@ sudo apt-get install clangd-9
 sudo update-alternatives --install /usr/bin/clangd clangd /usr/bin/clangd-9 100
 # nvim-plugs
 echo "(setup) installing neovim plugins"
-nvim -c 'PlugInstall' -c 'qa!'
+nvim +PlugInstall +qall
 echo "(setup) configuring coc-nvim"
 nvim -c 'CocInstall -sync coc-clangd coc-css coc-html coc-json coc-python coc-sh coc-tsserver|q'
 echo "(setup) configured neovim"
@@ -118,4 +118,11 @@ echo "(setup) configuring tpm"
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 echo "(setup) configured tmux"
 
+# echo "(setup) manually install nvim plugs"
+# echo "(setup) do the following in nvim"
+# echo "        :PlugInstall"
+# echo "        :CocInstall -sync coc-clangd coc-css coc-html coc-json coc-python coc-sh coc-tsserver"
+echo "(setup) do the following in tmux"
+echo "        <C-A> + I"
 echo "(setup) done"
+

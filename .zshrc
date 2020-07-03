@@ -1,10 +1,10 @@
 # Set up the prompt
+fpath+=$HOME/.zsh/pure
 
 autoload -Uz promptinit
 promptinit
 # prompt adam1
 
-fpath+=$HOME/.zsh/pure
 prompt pure
 PURE_PROMPT_SYMBOL='>'
 PURE_PROMPT_VICMD_SYMBOL='<'

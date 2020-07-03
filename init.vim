@@ -1,4 +1,4 @@
-kset nocompatible
+set nocompatible
 set visualbell
 set shortmess+=I
 set laststatus=2
@@ -31,7 +31,7 @@ set mouse+=a
 " natural split opening
 set splitbelow
 set splitright
- ci
+
 " nnoremap <C-H> <C-W><C-H>
 " nnoremap <C-L> <C-W><C-L>
 " nnoremap <C-J> <C-W><C-J>
