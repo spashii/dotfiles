@@ -1,24 +1,45 @@
 # dotfiles
 
-My macOS config — kitty, zsh (oh-my-zsh), Karabiner-Elements.
+My macOS setup — kitty · zsh (oh-my-zsh) · Karabiner-Elements. Open this when setting up a Mac.
 
-## Setup on a fresh Mac
+## New Mac
 
 ```bash
+xcode-select --install     # git + build tools
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+brew install --cask kitty karabiner-elements
+brew install fzf
+# install a JetBrainsMono Nerd Font
+
 git clone https://github.com/spashii/dotfiles ~/dotfiles
 ~/dotfiles/install.sh
 ```
 
-Then open a new terminal tab. That's it.
+`install.sh` symlinks kitty + zsh, installs oh-my-zsh + plugins, and seeds the Karabiner config. Re-runnable; backs up anything it replaces.
 
-`install.sh` is safe to re-run — it backs up anything it replaces, symlinks kitty + zsh,
-installs oh-my-zsh and its plugins, and seeds the Karabiner config. It prints what it does
-and what to finish by hand (e.g. grant Karabiner Accessibility).
+By hand after: open a new terminal tab · Karabiner → grant Accessibility + approve the driver extension.
 
-First install Homebrew (<https://brew.sh>), then:
-`brew install --cask kitty karabiner-elements` · `brew install fzf` · a JetBrainsMono Nerd Font.
+## Second account (share configs + models)
 
-## More
+One Mac, two accounts — share configs and the big model stores instead of duplicating them:
 
-- Full new-Mac playbook (every app, multi-account model sharing, all the gotchas): [SETUP.md](SETUP.md)
-- The old vim/tmux/zsh setup (2020) is on the [`linux-2020`](../../tree/linux-2020) branch.
+```bash
+~/dotfiles/share.sh host    # main account: set up the shared store under /Users/Shared
+~/dotfiles/share.sh join    # other account: link to it (also installs oh-my-zsh)
+```
+
+| Shared (one copy, both accounts) | Per-account |
+|---|---|
+| kitty, zsh, Ollama models, Whisper models | Karabiner (it rewrites its own file — can't be shared) |
+
+Don't run Ollama in both accounts at once (single server on `:11434`).
+
+## Gotchas
+
+- **Karabiner** config is *copied*, never symlinked — it overwrites symlinks on save.
+- **Ollama** ignores `OLLAMA_MODELS` on macOS 15+; we symlink `~/.ollama/models` to the shared store instead.
+- **Whisper** model downloads as `0600`; sharing makes it group-readable.
+
+## Branches
+
+- `linux-2020` — the old vim/tmux/zsh setup.
