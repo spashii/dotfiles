@@ -1,0 +1,6 @@
+export ASDF_DATA_DIR="${ASDF_DATA_DIR:-$HOME/.asdf}"
+
+case ":$PATH:" in
+  *":$ASDF_DATA_DIR/shims:"*) ;;
+  *) export PATH="$ASDF_DATA_DIR/shims:$PATH" ;;
+esac

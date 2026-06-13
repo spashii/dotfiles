@@ -31,6 +31,7 @@ for s in "zsh-autosuggestions|https://github.com/zsh-users/zsh-autosuggestions" 
   n="${s%%|*}"; [ -d "$CUST/$n" ] || git clone --depth=1 "${s#*|}" "$CUST/$n"
 done
 command -v fzf >/dev/null 2>&1 || { command -v brew >/dev/null 2>&1 && brew install fzf; }  # fzf-tab needs it
+link ~/.zshenv "$REPO/zsh/zshenv"
 link ~/.zshrc "$REPO/zsh/zshrc"
 
 echo "== kitty =="

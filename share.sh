@@ -39,9 +39,10 @@ host)
   chmod 2775 "$SH/dotfiles" "$SH/models" 2>/dev/null
   # configs: seed shared from the repo, then link this account at them
   [ -d "$SH/dotfiles/kitty" ] || cp -R "$REPO/kitty" "$SH/dotfiles/kitty"
+  [ -f "$SH/dotfiles/zshenv" ] || cp "$REPO/zsh/zshenv" "$SH/dotfiles/zshenv"
   [ -f "$SH/dotfiles/zshrc" ] || cp "$REPO/zsh/zshrc" "$SH/dotfiles/zshrc"
   echo "kitty:"; link ~/.config/kitty "$SH/dotfiles/kitty"
-  echo "zsh:";   omz; link ~/.zshrc "$SH/dotfiles/zshrc"
+  echo "zsh:";   omz; link ~/.zshenv "$SH/dotfiles/zshenv"; link ~/.zshrc "$SH/dotfiles/zshrc"
   echo "karabiner:"; karabiner
   # ollama models -> shared (instant rename, same volume)
   echo "ollama:"
@@ -65,7 +66,7 @@ host)
 join)
   echo "== join: linking this account to $SH =="
   echo "kitty:"; link ~/.config/kitty "$SH/dotfiles/kitty"
-  echo "zsh:";   omz; link ~/.zshrc "$SH/dotfiles/zshrc"
+  echo "zsh:";   omz; link ~/.zshenv "$SH/dotfiles/zshenv"; link ~/.zshrc "$SH/dotfiles/zshrc"
   echo "ollama:"; mkdir -p ~/.ollama; link ~/.ollama/models "$SH/models/ollama"
   echo "whisper:"; link "$WHISPER" "$SH/models/whisper"
   echo "karabiner:"; karabiner

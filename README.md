@@ -14,6 +14,7 @@ my macOS setup
 - `brew install asdf`, then:
     - `asdf plugin add nodejs && asdf install nodejs latest && asdf set nodejs latest`
     - `asdf plugin add python && asdf install python latest && asdf set python latest`
+    - `~/.zshenv` is linked so asdf shims are available in non-interactive zsh shells too
 - `curl -fsSL https://bun.sh/install | bash`
 - `curl -fsSL https://claude.ai/install.sh | bash`
 - `curl -fsSL https://chatgpt.com/codex/install.sh | sh`
