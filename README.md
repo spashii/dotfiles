@@ -1,43 +1,22 @@
 # dotfiles
 
-My macOS setup — kitty · zsh (oh-my-zsh) · Karabiner-Elements. Open this when setting up a Mac.
+my macOS setup — kitty · zsh · Karabiner · OpenSuperWhisper · Ollama
 
-## New Mac
+- `xcode-select --install` — git + build tools
+- homebrew — `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
+- **setup** — installs + configures kitty, zsh, Karabiner, OpenSuperWhisper, Ollama:
+  `git clone https://github.com/spashii/dotfiles ~/dotfiles && ~/dotfiles/install.sh`
+  then: new terminal tab · Karabiner → grant Accessibility + approve driver extension
+- **second account** — share configs + Ollama/Whisper models via `/Users/Shared`:
+  `~/dotfiles/share.sh host`, then `~/dotfiles/share.sh join` in the other account
+  (don't run Ollama in both accounts at once — one server on `:11434`)
+- mos — `brew install --cask mos` · [MX Master scroll fix](https://baty.net/posts/2025/03/fixing-the-terrible-scrolling-behavior-with-logitech-mx-master-on-mac-os/)
+- raycast — `brew install --cask raycast`
+- cursor — `brew install --cask cursor`
+- docker — `brew install --cask docker-desktop`
+- gh — `brew install gh` · `gh auth login`
+- asdf — `brew install asdf` · then node / python / bun
+- claude code / codex — `curl -fsSL https://claude.ai/install.sh | bash` · `curl -fsSL https://chatgpt.com/codex/install.sh | sh`
+- touch-id for sudo — `sed "s/^#auth/auth/" /etc/pam.d/sudo_local.template | sudo tee /etc/pam.d/sudo_local`
 
-```bash
-xcode-select --install     # git + build tools
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-brew install --cask kitty karabiner-elements font-jetbrains-mono-nerd-font
-
-git clone https://github.com/spashii/dotfiles ~/dotfiles
-~/dotfiles/install.sh
-```
-
-`install.sh` symlinks kitty + zsh, installs oh-my-zsh + plugins, and seeds the Karabiner config. Re-runnable; backs up anything it replaces.
-
-By hand after: open a new terminal tab · Karabiner → grant Accessibility + approve the driver extension.
-
-## Second account (share configs + models)
-
-One Mac, two accounts — share configs and the big model stores instead of duplicating them:
-
-```bash
-~/dotfiles/share.sh host    # main account: set up the shared store under /Users/Shared
-~/dotfiles/share.sh join    # other account: link to it (also installs oh-my-zsh)
-```
-
-| Shared (one copy, both accounts) | Per-account |
-|---|---|
-| kitty, zsh, Ollama models, Whisper models | Karabiner (it rewrites its own file — can't be shared) |
-
-Don't run Ollama in both accounts at once (single server on `:11434`).
-
-## Gotchas
-
-- **Karabiner** config is *copied*, never symlinked — it overwrites symlinks on save.
-- **Ollama** ignores `OLLAMA_MODELS` on macOS 15+; we symlink `~/.ollama/models` to the shared store instead.
-- **Whisper** model downloads as `0600`; sharing makes it group-readable.
-
-## Branches
-
-- `linux-2020` — the old vim/tmux/zsh setup.
+`linux-2020` branch = old vim/tmux/zsh setup.
