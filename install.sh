@@ -31,6 +31,7 @@ for spec in \
   name="${spec%%|*}"; url="${spec#*|}"
   if [ -d "$CUST/$name" ]; then echo "  plugin $name present"; else git clone --depth=1 "$url" "$CUST/$name"; fi
 done
+command -v fzf >/dev/null 2>&1 || { command -v brew >/dev/null 2>&1 && brew install fzf; }  # fzf-tab needs it
 link "$REPO/zsh/zshrc" "$HOME/.zshrc"
 
 echo "== karabiner (SEED COPY — not symlinked: Karabiner rewrites the file in place) =="

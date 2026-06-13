@@ -7,9 +7,7 @@ My macOS setup — kitty · zsh (oh-my-zsh) · Karabiner-Elements. Open this whe
 ```bash
 xcode-select --install     # git + build tools
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-brew install --cask kitty karabiner-elements
-brew install fzf
-# install a JetBrainsMono Nerd Font
+brew install --cask kitty karabiner-elements font-jetbrains-mono-nerd-font
 
 git clone https://github.com/spashii/dotfiles ~/dotfiles
 ~/dotfiles/install.sh
