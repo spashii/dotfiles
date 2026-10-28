@@ -1,5 +1,5 @@
 #!/bin/bash
-# Set up this Mac: install + configure kitty, zsh, Karabiner, OpenSuperWhisper, Ollama.
+# Set up this Mac: install + configure kitty, zsh, Karabiner, OpenSuperWhisper, Ollama, Touch ID sudo.
 #   git clone https://github.com/spashii/dotfiles ~/dotfiles && ~/dotfiles/install.sh
 # Idempotent; backs up replaced files to *.bak.<ts>. Needs Homebrew (see README).
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -41,6 +41,13 @@ echo "== karabiner (seed copy — never a symlink; Karabiner rewrites the file) 
 mkdir -p ~/.config/karabiner
 [ -f ~/.config/karabiner/karabiner.json ] && echo "  exists, kept" \
   || cp "$REPO/karabiner/karabiner.json" ~/.config/karabiner/karabiner.json
+
+echo "== touch id for sudo (sudo_local survives macOS updates) =="
+if grep -q '^auth.*pam_tid.so' /etc/pam.d/sudo_local 2>/dev/null; then echo "  ok"
+elif [ -t 0 ]; then
+  sed "s/^#auth/auth/" /etc/pam.d/sudo_local.template | sudo tee /etc/pam.d/sudo_local >/dev/null && echo "  enabled"
+else echo "  ! skipped: needs your password, re-run from a local terminal"
+fi
 
 echo
 echo "Done. Open a new terminal tab. Karabiner: grant Accessibility + approve the driver extension."
