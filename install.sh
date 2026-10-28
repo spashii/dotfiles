@@ -14,6 +14,7 @@ link() {  # $1 = home path, $2 = repo source
 
 echo "== apps (Brewfile) =="
 if command -v brew >/dev/null 2>&1; then
+  brew trust --tap hashicorp/tap spashii/browserpicker  # Homebrew only loads third-party taps you trust
   brew bundle --file="$REPO/Brewfile" || echo "  ! some entries failed, see above; re-run after fixing"
 else
   echo "  ! Homebrew not found: install it first (see README), then re-run"
@@ -35,7 +36,9 @@ echo "== node + python (asdf) =="
 if command -v asdf >/dev/null 2>&1; then
   for l in nodejs python; do
     asdf plugin list 2>/dev/null | grep -qx "$l" || asdf plugin add "$l"
-    asdf install "$l" latest && asdf set --home "$l" latest
+    # newest plain release: skips the free-threaded "t" builds and pre-releases
+    v=$(asdf list all "$l" | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -1)
+    asdf install "$l" "$v" && asdf set --home "$l" "$v"
   done
 fi
 

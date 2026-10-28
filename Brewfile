@@ -1,6 +1,6 @@
 # Everything this Mac runs. install.sh applies it with `brew bundle`.
 tap "hashicorp/tap"
-tap "spashii/browserpicker"
+tap "spashii/browserpicker", "https://github.com/spashii/browserpicker"
 
 # shell and everyday cli
 brew "git"
@@ -51,7 +51,7 @@ cask "t3-code@nightly"
 cask "moonlight"
 cask "windows-app"
 cask "podman-desktop"
-cask "ollama"
+cask "ollama-app"
 
 # agents
 cask "claude-code@latest"
