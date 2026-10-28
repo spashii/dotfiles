@@ -1,5 +1,5 @@
 #!/bin/bash
-# Set up this Mac: install + configure kitty, zsh, Karabiner, OpenSuperWhisper, Ollama, Touch ID sudo.
+# Set up this Mac: apps from the Brewfile, zsh, node + python, kitty, Karabiner, Touch ID sudo.
 #   git clone https://github.com/spashii/dotfiles ~/dotfiles && ~/dotfiles/install.sh
 # Idempotent; backs up replaced files to *.bak.<ts>. Needs Homebrew (see README).
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -12,13 +12,11 @@ link() {  # $1 = home path, $2 = repo source
   mkdir -p "$(dirname "$dst")"; ln -s "$src" "$dst"; echo "  linked $dst"
 }
 
-echo "== apps =="
+echo "== apps (Brewfile) =="
 if command -v brew >/dev/null 2>&1; then
-  for c in kitty karabiner-elements opensuperwhisper ollama font-jetbrains-mono-nerd-font; do
-    if brew list --cask "$c" >/dev/null 2>&1; then echo "  $c present"; else brew install --cask "$c"; fi
-  done
+  brew bundle --file="$REPO/Brewfile" || echo "  ! some entries failed, see above; re-run after fixing"
 else
-  echo "  ! Homebrew not found — install it first (see README), then re-run"
+  echo "  ! Homebrew not found: install it first (see README), then re-run"
 fi
 
 echo "== zsh (oh-my-zsh + plugins + fzf) =="
@@ -30,9 +28,16 @@ for s in "zsh-autosuggestions|https://github.com/zsh-users/zsh-autosuggestions" 
          "fzf-tab|https://github.com/Aloxaf/fzf-tab"; do
   n="${s%%|*}"; [ -d "$CUST/$n" ] || git clone --depth=1 "${s#*|}" "$CUST/$n"
 done
-command -v fzf >/dev/null 2>&1 || { command -v brew >/dev/null 2>&1 && brew install fzf; }  # fzf-tab needs it
 link ~/.zshenv "$REPO/zsh/zshenv"
 link ~/.zshrc "$REPO/zsh/zshrc"
+
+echo "== node + python (asdf) =="
+if command -v asdf >/dev/null 2>&1; then
+  for l in nodejs python; do
+    asdf plugin list 2>/dev/null | grep -qx "$l" || asdf plugin add "$l"
+    asdf install "$l" latest && asdf set --home "$l" latest
+  done
+fi
 
 echo "== kitty =="
 link ~/.config/kitty "$REPO/kitty"
