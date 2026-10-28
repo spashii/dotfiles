@@ -9,7 +9,7 @@ my macOS setup
     - run it from a local terminal: karabiner, windows-app and touch-id ask for your password
     - Xcode comes from the App Store: sign in there first or it is skipped
     - `~/.zshenv` is linked so asdf shims are available in non-interactive zsh shells too
-- after: new terminal tab, `gh auth login`, `gcloud auth login`, grant the permissions karabiner, raycast, mos and opensuperwhisper ask for
+- after: new terminal tab, then `~/dotfiles/signin.sh` walks through every sign-in and permission
     - mos: MX Master scroll fix ([baty.net](https://baty.net/posts/2025/03/fixing-the-terrible-scrolling-behavior-with-logitech-mx-master-on-mac-os/))
 - by hand: DaVinci Resolve from blackmagicdesign.com (not in Homebrew)
 - second account, share configs + ollama/whisper models: `~/dotfiles/share.sh host`, then `~/dotfiles/share.sh join` on the other account
