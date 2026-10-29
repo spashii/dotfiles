@@ -12,10 +12,22 @@ link() {  # $1 = home path, $2 = repo source
   mkdir -p "$(dirname "$dst")"; ln -s "$src" "$dst"; echo "  linked $dst"
 }
 
+# Ask for the password once, then keep sudo alive until the script ends.
+# Without a terminal (run over ssh) the steps that need sudo are skipped instead.
+if [ -t 0 ]; then
+  sudo -v || exit 1
+  while sudo -n true; kill -0 "$$" 2>/dev/null; do sleep 50; done 2>/dev/null &
+else
+  echo "no terminal: skipping the installers that need your password"
+  export HOMEBREW_BUNDLE_CASK_SKIP="karabiner-elements windows-app tailscale-app"
+fi
+
 echo "== apps (Brewfile) =="
 if command -v brew >/dev/null 2>&1; then
   brew trust --tap hashicorp/tap spashii/browserpicker  # Homebrew only loads third-party taps you trust
-  brew bundle --file="$REPO/Brewfile" || echo "  ! some entries failed, see above; re-run after fixing"
+  # one automatic retry: large downloads sometimes drop mid-way
+  brew bundle --file="$REPO/Brewfile" || { echo "  retrying failed entries"; brew bundle --file="$REPO/Brewfile"; } \
+    || echo "  ! some entries still failed, see above; re-run after fixing"
 else
   echo "  ! Homebrew not found: install it first (see README), then re-run"
 fi
